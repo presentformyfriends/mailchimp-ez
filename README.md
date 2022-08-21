@@ -26,9 +26,15 @@ Clone the repo:
 git clone https://github.com/presentformyfriends/mailchimp-ez.git
 ```
 
+The YouTube video below will show you how to find your Mailchimp API key, server, segment ID, and list ID (Please be aware that what the YouTuber refers to as "Lists" in this video has now been changed to "Audiences" by Mailchimp):
+
+[![mailchimp sub domain, api key, list id, segment id](https://img.youtube.com/vi/v8COddmNyPo/0.jpg)](https://www.youtube.com/watch?v=v8COddmNyPo)
+
+
 Configure the ```env.txt``` file to your custom environment variables, then rename the file to '.env' (minus quotes).
 
 The ```.env``` file and the ```template.html``` file must both exist in the root folder for this script to work.
+
 
 The best way to run this script is via the context menu:
 
