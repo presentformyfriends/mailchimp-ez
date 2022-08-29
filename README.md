@@ -36,11 +36,9 @@ Configure the ```env.txt``` file to your custom environment variables, then rena
 The ```.env``` file and the ```template.html``` file must both exist in the root folder for this script to work.
 
 
-The best way to run this script is via the context menu:
+The best way to run this script is via the context menu, i.e. right-click (or Control-click on Mac) on a folder that contains your images:
 
-```
-animated.gif x3
-```
+![usage.gif](img/usage.gif)
 
 To add this script to the context menu of your operating system, follow one of the examples below:
 
@@ -52,9 +50,9 @@ Linux
 Active=true
 Name=My Monthly Campaign
 Comment=Create Mailchimp Campaign %e
-Exec=python3 ~/mailchimp-ez/mailchimp-ez.py %F
+Exec=/usr/bin/python3 /$HOME/mailchimp-ez/mailchimp-ez.py %F
 Selection=notnone
-Extensions=dir;
+Extensions=dir
 Icon-Name=mail-folder-sent
 Quote=double
 Terminal=true
@@ -72,7 +70,7 @@ Windows
 [HKEY_CLASSES_ROOT\Directory\shell\mailchimp-ez]
 "Icon"="C:\\Windows\\System32\\shell32.dll,326"
 
-[HKEY_CLASSES_ROOT\Directory\shell\Meme Crop\command]
+[HKEY_CLASSES_ROOT\Directory\shell\mailchimp-ez\command]
 @="C:\\Users\\USERNAME\\AppData\\Local\\Programs\\Python\\Python39\\python.exe -i \"C:\\Users\\USERNAME\\mailchimp-ez.py\" \"%1\""
 ```
 
