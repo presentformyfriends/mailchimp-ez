@@ -42,10 +42,9 @@ The best way to run this script is via the context menu, i.e. right-click (or Co
 
 To add this script to the context menu of your operating system, follow one of the examples below:
 
-Linux
+### Linux
+Copy and paste the code below into nano or vim and save as ```~/.local/share/nemo/actions/mailchimp-ez.nemo_action``` to create a Nemo Action:
 ```
-# ~/.local/share/nemo/actions/mailchimp-ez.nemo_action
-
 [Nemo Action]
 Active=true
 Name=My Monthly Campaign
@@ -57,15 +56,21 @@ Icon-Name=mail-folder-sent
 Quote=double
 Terminal=true
 ```
+Make the ```mailchimp-ez.nemo_action``` file executable using the following command:
+```
+$ chmod +x ~/.local/share/nemo/actions/mailchimp-ez.nemo_action
+```
 
-Mac OSX 
+### Mac OSX 
 ```
-Use Automator
+animated gif of automator
 ```
 
-Windows
+### Windows
+
+Copy and paste the code below into notepad and save as ```mailchimp-ez.reg```
 ```
-; mailchimp-ez-context-menu.reg
+Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\Directory\shell\mailchimp-ez]
 "Icon"="C:\\Windows\\System32\\shell32.dll,326"
@@ -73,6 +78,9 @@ Windows
 [HKEY_CLASSES_ROOT\Directory\shell\mailchimp-ez\command]
 @="C:\\Users\\USERNAME\\AppData\\Local\\Programs\\Python\\Python39\\python.exe -i \"C:\\Users\\USERNAME\\mailchimp-ez.py\" \"%1\""
 ```
+Double-click the ```mailchimp-ez.reg``` file to run and add the option to your context menu.
+
+### Other
 
 The ```template.html``` file uses JPG as the default image format. So either ensure that your images are all JPG, or you can change the HTML to accept PNG or GIF format. The Mailchimp API will only accept images in JPG, PNG, or GIF.
 

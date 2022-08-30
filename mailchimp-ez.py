@@ -61,10 +61,9 @@ def copy_images(home_path, source_path):
                     input("Press ENTER to continue...")
                     sys.exit()
 
-        # Return source/destination dirs
         print("\nSource path:", source_path)  # Source dir
         print("Destination path:", destination_path)  # Destination dir
-        return destination_path
+        return destination_path # Return destination dir
 
     elif source_path.is_file():
         print("Invalid selection: path must be directory, not file\n")
@@ -364,7 +363,10 @@ def load_website(
                 WebDriverWait(driver, 15)
                 .until(
                     EC.visibility_of_element_located(
-                        (By.XPATH, "//div[@class='radio-description-out question-input fs-mask']/div/p")
+                        (
+                            By.XPATH,
+                            "//div[@class='radio-description-out question-input fs-mask']/div/p",
+                        )
                     )
                 )
                 .text
@@ -452,7 +454,10 @@ def load_website(
         try:
             WebDriverWait(driver, 15).until(
                 EC.visibility_of_element_located(
-                    (By.XPATH, "//nav/ul/li/button/div/span[text()='Campaigns']")
+                    (
+                        By.XPATH,
+                        "//nav/ul/li/button/div/span[text()='Campaigns']",
+                    )
                 )
             ).click()
             break
@@ -550,3 +555,4 @@ load_website(
     answer2,
     answer3,
 )  # Load Mailchimp site, log in to look over campaign before sending
+driver.quit()
