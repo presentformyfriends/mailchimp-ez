@@ -32,8 +32,7 @@ load_dotenv()  # Load environment variables
 
 def copy_images(home_path, source_path):
     if source_path.is_dir():
-        print("Preparing to add images from: " + "/home/username/Desktop/" + str(source_path.stem) + "\n") # Fake dir for animated gif
-        # print("Preparing to add images from: " + str(source_path) + "\n")
+        print("Preparing to add images from: " + str(source_path) + "\n")
         input("Press ENTER to continue ...")
         # Create destination dir, overwrite if it already exists
         destination_path = home_path / "Documents/campaign"
