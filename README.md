@@ -14,6 +14,10 @@ Automatic email campaign with images and text using the Mailchimp API, written i
 
 Includes placeholder images and text, as well as an HTML template with responsive design.
 
+After uploading your images and merging your HTML template, the script opens your browser, logs you into your Mailchimp account, and navigates to the newly created template. This is to give you the chance to check everything over. 
+
+At this point, you can manually send the campaign via your browser. Or, if there is something you need to tweak, you can just leave it unsent and finish it later. You could also just delete it and start over if necessary.
+
 
 ## 📝 Usage
 
@@ -52,7 +56,7 @@ Comment=Create Mailchimp Campaign %e
 Exec=/usr/bin/python3 /$HOME/mailchimp-ez/mailchimp-ez.py %F
 Selection=notnone
 Extensions=dir
-Icon-Name=mail-folder-sent
+Icon-Name=face-monkey-symbolic
 Quote=double
 Terminal=true
 ```

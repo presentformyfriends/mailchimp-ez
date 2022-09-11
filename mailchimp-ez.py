@@ -7,6 +7,7 @@ import pyautogui
 import humanize
 import logging
 import jinja2
+import time
 import mailchimp_marketing as MailchimpMarketing
 from mailchimp_marketing.api_client import ApiClientError
 from pathlib import Path
@@ -33,7 +34,7 @@ load_dotenv()  # Load environment variables
 def copy_images(home_path, source_path):
     if source_path.is_dir():
         print("Preparing to add images from: " + str(source_path) + "\n")
-        input("Press ENTER to continue ...")
+        input("Press Enter to continue ...")
         # Create destination dir, overwrite if it already exists
         destination_path = home_path / "Documents/campaign"
         try:
@@ -58,16 +59,16 @@ def copy_images(home_path, source_path):
                         + natural_image_size
                     )
                     print("\nImages must be 1 MB or less\n")
-                    input("Press ENTER to continue...")
+                    input("Press Enter to quit ...")
                     sys.exit()
 
         print("\nSource path:", source_path)  # Source dir
         print("Destination path:", destination_path)  # Destination dir
-        return destination_path # Return destination dir
+        return destination_path  # Return destination dir
 
     elif source_path.is_file():
         print("Invalid selection: path must be directory, not file\n")
-        input("Press ENTER to continue...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -104,7 +105,7 @@ def create_HTML(home_path, source_path, destination_path):
         )
     except FileNotFoundError:
         print("template.html file not found")
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
     # Write substitutions to new file
@@ -126,7 +127,7 @@ def create_archive(destination_path):
         return archive_path
     else:
         print("render.html file not found")
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -141,7 +142,7 @@ def encode_archive(archive_path):
             sys.exit()
     else:
         print("Invalid archive file")
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -152,7 +153,7 @@ def get_client(api_key, server_code):
         return client
     except ApiClientError as error:
         print("Client Error: {}".format(error.text))
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -166,13 +167,14 @@ def get_health_status(client):
         print("Response: {}".format(response) + "\n")
     else:
         print("Invalid health status")
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
+        sys.exit()
 
 
-def get_response(client, segment_id, list_id, from_name, reply_to_email):
+def get_response(
+    client, segment_id, list_id, subject, title, from_name, reply_to_email
+):
     """Get response from API"""
-    month = datetime.now().strftime("%B")  # Define month
-    year = datetime.now().strftime("%Y")  # Define year
     try:
         campaign_response = client.campaigns.create(
             {
@@ -182,14 +184,8 @@ def get_response(client, segment_id, list_id, from_name, reply_to_email):
                     "list_id": list_id,
                 },
                 "settings": {
-                    "subject_line": "Monthly Mailchimp Campaign "
-                    + month
-                    + " "
-                    + year,
-                    "title": "Monthly Mailchimp Campaign "
-                    + month
-                    + " "
-                    + year,
+                    "subject_line": subject,
+                    "title": title,
                     "from_name": from_name,
                     "reply_to": reply_to_email,
                 },
@@ -198,7 +194,7 @@ def get_response(client, segment_id, list_id, from_name, reply_to_email):
         return campaign_response
     except ApiClientError as error:
         print("Error Creating Campaign: {}".format(error.text))
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -210,7 +206,7 @@ def get_campaign_id(campaign_response):
         return campaign_id
     except ApiClientError as error:
         print("Campaign ID Error: {}".format(error.text))
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -222,7 +218,7 @@ def get_web_id(campaign_response):
         return web_id
     except ApiClientError as error:
         print("Web ID Error: {}".format(error.text))
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -241,7 +237,7 @@ def set_content(client, campaign_id, encoded_archive_data):
         )
     except ApiClientError as error:
         print("ID Error: {}".format(error.text))
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
 
@@ -249,7 +245,7 @@ def remove_dir(delete_path):
     if os.path.isdir(delete_path):
         shutil.rmtree(delete_path)  # Remove destination dir
         print("\nRemoved directory " + str(delete_path) + "\n")
-        input("Press ENTER to login to Mailchimp website ...")
+        input("Press Enter to login to Mailchimp website ...")
 
 
 def driver_config(geckodriver_path):
@@ -295,9 +291,10 @@ def load_website(
         WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "#username"))
         ).send_keys(username)
+        time.sleep(1)
     except (NoSuchElementException, TimeoutException):
         print("Couldn't locate username field")
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
     # Enter password
@@ -305,9 +302,10 @@ def load_website(
         WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "#password"))
         ).send_keys(password)
+        time.sleep(1)
     except (NoSuchElementException, TimeoutException):
         print("Couldn't locate password field")
-        input("Press ENTER to close...")
+        input("Press Enter to quit ...")
         sys.exit()
 
     # Click 'Log In' button, try again if unable to locate button
@@ -318,6 +316,7 @@ def load_website(
                     (By.CSS_SELECTOR, "#submit-btn")
                 )
             ).click()
+            time.sleep(1)
             break
         except (
             NoSuchElementException,
@@ -347,6 +346,7 @@ def load_website(
                     (By.CSS_SELECTOR, "#dijit_form_RadioButton_1")
                 )
             ).click()
+            time.sleep(1)
             break
         except (
             NoSuchElementException,
@@ -371,6 +371,7 @@ def load_website(
                 )
                 .text
             )
+            time.sleep(1)
             break
         except (NoSuchElementException, TimeoutException):
             print("Could not answer security question")
@@ -393,8 +394,9 @@ def load_website(
                 answer_field.send_keys(answer3)
             else:
                 print("Security question not recognized")
-                input("Press ENTER to close...")
+                input("Press Enter to quit ...")
                 sys.exit()
+            time.sleep(1)
             break
         except (NoSuchElementException, TimeoutException):
             print("Could not answer security question")
@@ -408,6 +410,7 @@ def load_website(
                     (By.XPATH, "//button[text()=' Submit Verification ']")
                 )
             ).click()
+            time.sleep(1)
             break
         except (
             NoSuchElementException,
@@ -428,6 +431,7 @@ def load_website(
                 )
             )
             print("URL changed")
+            time.sleep(1)
             break
         except:
             print("URL did not change")
@@ -460,6 +464,7 @@ def load_website(
                     )
                 )
             ).click()
+            time.sleep(1)
             break
         except (
             NoSuchElementException,
@@ -477,6 +482,7 @@ def load_website(
                     (By.XPATH, "//a[@aria-label='All campaigns']")
                 )
             ).click()
+            time.sleep(1)
             break
         except (
             NoSuchElementException,
@@ -488,7 +494,7 @@ def load_website(
 
     # Wait for user to send campaign and press ENTER to quit
     input(
-        "\nYou can check over your campaign and send it now\n\nOnce you have sent your campaign, press ENTER to quit..."
+        "\nYou can check over your campaign and send it now\n\nOnce you have sent your campaign, press Enter to quit ..."
     )
 
 
@@ -518,6 +524,14 @@ answer3 = os.environ.get("ANSWER3")
 # Change this path to wherever your geckodriver resides
 geckodriver_path = f"{os.getenv('HOME')}/Downloads/geckodriver"
 
+# Subject and Title
+month = datetime.now().strftime("%B")  # Define month
+year = datetime.now().strftime("%Y")  # Define year
+subject = (
+    "Monthly Mailchimp Campaign " + month.upper() + " " + year
+)  # Email subject
+title = "My Mailchimp Campaign " + month.upper() + " " + year  # Title
+
 # From name and reply-to email address
 from_name = "Kelly Kapoor"
 reply_to_email = "k.kapoor@dundermifflin.com"
@@ -536,7 +550,7 @@ encoded_archive_data = encode_archive(archive_path)  # Encode archive to base64
 client = get_client(api_key, server_code)
 get_health_status(client)  # Health status check
 campaign_response = get_response(
-    client, int(segment_id), list_id, from_name, reply_to_email
+    client, int(segment_id), list_id, subject, title, from_name, reply_to_email
 )
 campaign_id = get_campaign_id(campaign_response)
 web_id = get_web_id(campaign_response)
