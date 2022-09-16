@@ -17,7 +17,7 @@ Includes placeholder images and text, as well as an HTML template with responsiv
 After uploading your images and merging your HTML template, the script opens your browser, logs you into your Mailchimp account, and navigates to the newly created template. This is to give you the chance to check everything over. 
 
 At this point, you can manually send the campaign via your browser. Or, if there is something you need to tweak, you can just leave it unsent and finish it later. You could also just delete it and start over if necessary.
-
+<br><br>
 
 ## 📝 Usage
 
@@ -40,20 +40,19 @@ Configure the ```env.txt``` file to your custom environment variables, then rena
 The ```.env``` file and the ```template.html``` file must both exist in the root folder for this script to work.
 
 
-The best way to run this script is via the context menu, i.e. right-click (or Control-click on Mac) on a folder that contains your images:
+The best way to run this script is via the context menu, i.e. right-click (or Control-click on Mac) on a folder that contains your images.
 
-![usage.gif](img/usage.gif)
-
-To add this script to the context menu of your operating system, follow one of the examples below:
+To add this python script to the context menu of your operating system, follow one of the examples below for your corresponding operating system.
+<br><br>
 
 ### Linux
-Copy and paste the code below into nano or vim and save as ```~/.local/share/nemo/actions/mailchimp-ez.nemo_action``` to create a Nemo Action:
+Copy and paste the code below into nano or vim and save as ```~/.local/share/nemo/actions/mailchimp-ez.nemo_action``` to create a Nemo Action (replace username with your own user name):
 ```
 [Nemo Action]
 Active=true
 Name=My Monthly Campaign
 Comment=Create Mailchimp Campaign %e
-Exec=/usr/bin/python3 /$HOME/mailchimp-ez/mailchimp-ez.py %F
+Exec=/usr/bin/python3 /home/username/mailchimp-ez/mailchimp-ez.py %F
 Selection=notnone
 Extensions=dir
 Icon-Name=face-monkey-symbolic
@@ -64,25 +63,53 @@ Make the ```mailchimp-ez.nemo_action``` file executable using the following comm
 ```
 $ chmod +x ~/.local/share/nemo/actions/mailchimp-ez.nemo_action
 ```
+To run, right-click on a folder that contains your images and select the action:
+
+![usage.gif](img/linux-usage.gif)
+<br><br>
 
 ### Mac OSX 
+Open Automator and go to ```File``` > ```New``` > ```Quick Action```
+
+In the Quick Action window, click on ```Utilities``` in the left pane, under ```Library```
+
+In the adjacent pane, double-click ```Run AppleScript```
+
+In the right pane, set ```Workflow receives current``` to ```folders``` in ```Finder.app```, set ```Image``` to ```Mail``` and set ```Color``` to ```Black```
+
+Copy and paste the following code into the ```Run AppleScript``` section:
+
 ```
-animated gif of automator
+on run argv
+	tell application "Terminal"
+		activate
+		do script "/usr/local/bin/python3 $HOME/mailchimp-ez/mailchimp-ez.py " & (quoted form of (POSIX path of (item 1 of argv))) in window 1
+	end tell
+end run
 ```
+To run, control-click on a folder that contains your images, select ```Quick Actions``` and then select the action:
+
+![usage.gif](img/mac-osx-usage.gif)
+<br><br>
 
 ### Windows
 
-Copy and paste the code below into notepad and save as ```mailchimp-ez.reg```
+Copy and paste the code below into Notepad and save as ```mailchimp-ez.reg```
 ```
 Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\Directory\shell\mailchimp-ez]
-"Icon"="C:\\Windows\\System32\\shell32.dll,326"
+"Icon"="%SystemRoot%\\compstui.dll,64010"
 
 [HKEY_CLASSES_ROOT\Directory\shell\mailchimp-ez\command]
-@="C:\\Users\\USERNAME\\AppData\\Local\\Programs\\Python\\Python39\\python.exe -i \"C:\\Users\\USERNAME\\mailchimp-ez.py\" \"%1\""
+@="%UserProfile%\\AppData\\Local\\Programs\\Python\\Python310\\python.exe -i \"%UserProfile%\\mailchimp-ez\\mailchimp-ez.py\" \"%1\""
 ```
-Double-click the ```mailchimp-ez.reg``` file to run and add the option to your context menu.
+Create a System Restore point and/or create a backup of your registry. Then double-click the ```mailchimp-ez.reg``` file to add the option to your context menu.
+
+To run, right-click on a folder that contains your images and select the action:
+
+![usage.gif](img/win-usage.gif)
+<br><br>
 
 ### Other
 
@@ -91,7 +118,7 @@ The ```template.html``` file uses JPG as the default image format. So either ens
 Images must be less than 1 MB in size or the Mailchimp API upload will fail silently. The ```check_image_size()``` function will raise an error and exit if any images exceed 1 MB in size.
 
 Placeholder text is from [Hipster Ipsum](https://hipsum.co/).
-
+<br><br>
 
 ## 🐍 Dependencies
 
@@ -114,9 +141,8 @@ Placeholder text is from [Hipster Ipsum](https://hipsum.co/).
 * [pyautogui](https://github.com/asweigart/pyautogui)
 * [shutil](https://docs.python.org/3/library/shutil.html)
 * [sys](https://docs.python.org/3/library/sys.html)
-
+<br><br>
 
 ## ⚖️ License
-
 [![GitHub License](https://img.shields.io/github/license/presentformyfriends/mailchimp-ez?color=hotpink)](https://github.com/presentformyfriends/mailchimp-ez/blob/master/LICENSE)
 
