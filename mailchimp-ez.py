@@ -498,6 +498,9 @@ def load_website(
     )
 
 
+# Define home path
+home_path = Path.home()
+
 # ENVIRONMENT VARIABLES #
 
 # Credentials
@@ -522,7 +525,7 @@ answer3 = os.environ.get("ANSWER3")
 
 # Define geckodriver path #
 # Change this path to wherever your geckodriver resides
-geckodriver_path = f"{os.getenv('HOME')}/Downloads/geckodriver"
+geckodriver_path = home_path / "Downloads/geckodriver"
 
 # Subject and Title
 month = datetime.now().strftime("%B")  # Define month
