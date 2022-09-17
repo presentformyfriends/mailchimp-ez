@@ -120,7 +120,7 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
+# Ignore environment variables for dot-env, except for env.txt (included as example for user)
 .env
 .venv
 env/
@@ -162,14 +162,11 @@ cython_debug/
 
 ### VisualStudioCode ###
 .vscode
-.vscode/
 .vscode/*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# Support for Project snippet scope
-.vscode/*.code-snippets
+!.vscode/*.code-snippets
 
 # Local History for Visual Studio Code
 .history/
@@ -182,30 +179,20 @@ cython_debug/
 .history
 .ionide
 
+# Support for Project snippet scope
+.vscode/*.code-snippets
+
 # Ignore code-workspaces
 *.code-workspace
 
-# dotenv, dotenv-rails
-# TODO Comment out these rules if environment variables can be committed
-.env
-.env*.local
-
-# Ignore Rack Mini Profiler
-/config/initializers/rack_mini_profiler.rb
-
-# Ignore master key for decrypting credentials and more.
-/config/master.key
-
-# Ignore application configuration
-/config/application.yml
-
-# Ignore other secret files
-/config/initializers/secret_token.rb
-/config/secrets.yml
-/config/credentials/production.key
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
 
 # Ignore SSH keys
 /.ssh
 
-# Ignore gitconfig
-.gitconfig
+# Ignore .gitconfig
+/.gitconfig
