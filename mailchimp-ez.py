@@ -28,8 +28,6 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables
-
 
 def copy_images(home_path, source_path):
     if source_path.is_dir():
@@ -497,11 +495,12 @@ def load_website(
         "\nYou can check over your campaign and send it now\n\nOnce you have sent your campaign, press Enter to quit ..."
     )
 
-
 # Define home path
 home_path = Path.home()
 
 # ENVIRONMENT VARIABLES #
+
+load_dotenv()  # Load environment variables
 
 # Credentials
 username = os.environ.get("USERNAME")
